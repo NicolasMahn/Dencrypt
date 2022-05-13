@@ -1,4 +1,5 @@
 import json
+import subprocess
 
 from cryptography.fernet import Fernet
 
@@ -47,16 +48,18 @@ def encrypt():
                 result[numb] = str(encNumb)[2:len(str(encNumb)) - 1]
 
             if save:
-                with open(f"Tickets.json", 'w') as f:
+                with open("output/Tickets.json", 'w') as f:
                     json.dump(result, f, indent=3)
                 f.close()
-                with open(f"Key.txt", 'w') as f:
+                with open("output/Key.txt", 'w') as f:
                     if diyKey:
                         f.write(key)
                     else:
                         f.write(str(key)[2:len(str(key)) - 1])
                 f.close()
                 print("The Result and Key has been saved to Tickets.json and Key.txt")
+                print("You'll find them in: %ProgramData%/Dencrypt/output")
+                subprocess.Popen(f'explorer "output"')
         else:
             print("Dude, you had one Job. I think you should go back to primary school!")
     else:
