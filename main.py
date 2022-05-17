@@ -57,57 +57,66 @@ def makeBack(result):
     p = 0
     while i <= max:
         if i <= max:
+            pdfWriter.drawCentredString(255 * mm, 140 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 140 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 144 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(165 * mm, 140 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 140 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 144 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(75 * mm, 140 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 140 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 144 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(255 * mm, 80 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 80 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 84 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(165 * mm, 80 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 80 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 84 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(75 * mm, 80 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 80 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 84 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(255 * mm, 20 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 20 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 24 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(165 * mm, 20 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 20 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 24 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         i += 1
         if i <= max:
+            pdfWriter.drawCentredString(75 * mm, 20 * mm, f"{i:04d}")
             qrCode = qrcode.make(result.get(i))
             qrCode.save(f'QR_Code{i}.png')
-            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 20 * mm, 50 * mm, 50 * mm)
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 24 * mm, 50 * mm, 50 * mm)
             os.remove(f"QR_Code{i}.png")
         pdfWriter.showPage()
         p += 1
@@ -159,7 +168,7 @@ def makeFront(result):
         pdfmetrics.registerFont(TTFont('an', 'Arial Narrow.ttf'))
         pdfWriter.setFont("an", 11)
         pdfWriter.setFillColorRGB(0.4375, 0.4414, 0.4492)
-        i += 1
+
         pdfWriter.drawCentredString(50 * mm, 165.2 * mm, f"{i:04d}")
         i += 1
         pdfWriter.drawCentredString(140 * mm, 165.2 * mm, f"{i:04d}")
@@ -179,6 +188,7 @@ def makeFront(result):
         pdfWriter.drawCentredString(230 * mm, 45.2 * mm, f"{i:04d}")
         pdfWriter.showPage()
         p += 1
+        i += 1
 
     pdfWriter.save()
 
@@ -252,11 +262,11 @@ def encrypt():
                 f.close()
                 print("\nThe Result and Key has been saved to Tickets.json and Key.txt")
                 # print("You'll find them in: %ProgramData%/Dencrypt/output")
-                subprocess.Popen(f'explorer "output"')
                 print("\nShould I directly create tickets with corresponding numbers and QR codes (Y/n)?")
                 answer = input()
                 if answer.lower()[:1] != 'n':
                     makeTickets(result)
+                subprocess.Popen(f'explorer "output"')
         else:
             print("Dude, you had one Job. I think you should go back to primary school!")
     else:
