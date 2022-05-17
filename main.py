@@ -7,6 +7,7 @@ msV-x2CarhEaAM5EaDPZpwupUNm6kO8Wu2SY_rpWZKQ=
 """
 
 import json
+import os
 import subprocess
 from cryptography.fernet import Fernet
 from reportlab.lib.pagesizes import landscape, A4
@@ -45,54 +46,69 @@ def makeBack(result):
     pdfWriter.setTitle("Ententickets Rückseite")
     pdfWriter.setPageSize(landscape(A4))
 
-    i = 0
+    i = 1000000
+    max = 0
+    keys = result.keys()
+    for key in keys:
+        if i > key:
+            i = key
+        if max < key:
+            max = key
     p = 0
-    while i < len(result):
-        # pdf.drawImage('Ententickets_Vorderseite_Vorlage.jpg', 0, 0, 297 * mm, 210 * mm)
-        if i < len(result):
+    while i <= max:
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 50 * mm, 140 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 140 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 140 * mm, 140 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 140 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 230 * mm, 140 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 140 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 50 * mm, 80 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 80 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 140 * mm, 80 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 80 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 230 * mm, 80 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 80 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 50 * mm, 20 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 50 * mm, 20 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 140 * mm, 20 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 140 * mm, 20 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         i += 1
-        if i < len(result):
+        if i <= max:
             qrCode = qrcode.make(result.get(i))
-            qrCode.save('QR_Code.png')
-            pdfWriter.drawImage('QR_Code.png', 230 * mm, 20 * mm, 50 * mm, 50 * mm)
+            qrCode.save(f'QR_Code{i}.png')
+            pdfWriter.drawImage(f'QR_Code{i}.png', 230 * mm, 20 * mm, 50 * mm, 50 * mm)
+            os.remove(f"QR_Code{i}.png")
         pdfWriter.showPage()
         p += 1
         i += 1
@@ -116,6 +132,7 @@ def makeBack(result):
     outputStream = open("output/Ententickets_Rueckseite.pdf", "wb")
     pdf.write(outputStream)
     outputStream.close()
+    os.remove("tmp.pdf")
 
 
 def makeFront(result):
@@ -129,13 +146,19 @@ def makeFront(result):
     pdfWriter.setTitle("Ententickets Vorderseite")
     pdfWriter.setPageSize(landscape(A4))
 
-    i = 0
+    i = 1000000
+    max = 0
+    keys = result.keys()
+    for key in keys:
+        if i > key:
+            i = key
+        if max < key:
+            max = key
     p = 0
-    while i < len(result):
+    while i <= max:
         pdfmetrics.registerFont(TTFont('an', 'Arial Narrow.ttf'))
         pdfWriter.setFont("an", 11)
         pdfWriter.setFillColorRGB(0.4375, 0.4414, 0.4492)
-        # pdf.drawImage('Ententickets_Vorderseite_Vorlage.jpg', 0, 0, 297 * mm, 210 * mm)
         i += 1
         pdfWriter.drawCentredString(50 * mm, 165.2 * mm, f"{i:04d}")
         i += 1
@@ -173,10 +196,10 @@ def makeFront(result):
         pdf.addPage(page)
         i += 1
 
-
     outputStream = open("output/Ententickets_Vorderseite.pdf", "wb")
     pdf.write(outputStream)
     outputStream.close()
+    os.remove("tmp.pdf")
 
 
 def encrypt():
@@ -209,16 +232,14 @@ def encrypt():
                     key = input("Key: ")
                 except Exception:
                     print("Dude, Like an accepted key, not this bs")
-                diyKey = True
             else:
                 key = Fernet.generate_key()
-                diyKey = False
+                print(key)
             fernet = Fernet(key)
-            if not diyKey:
-                key = str(key)[2:len(str(key)) - 1]
+            key = str(key)
             for numb in numbs:
                 encNumb = fernet.encrypt(str(RANDOM_INT * numb).encode())
-                encNumb = str(encNumb)[2:len(str(encNumb)) - 1]
+                encNumb = str(encNumb)
                 print(f"{numb} has been encrypted to {encNumb} with the Key: {key}")
                 result[numb] = encNumb
 
@@ -227,15 +248,12 @@ def encrypt():
                     json.dump(result, f, indent=3)
                 f.close()
                 with open("output/Key.txt", 'w') as f:
-                    if diyKey:
-                        f.write(key)
-                    else:
-                        f.write(str(key)[2:len(str(key)) - 1])
+                    f.write(key)
                 f.close()
                 print("\nThe Result and Key has been saved to Tickets.json and Key.txt")
                 # print("You'll find them in: %ProgramData%/Dencrypt/output")
                 subprocess.Popen(f'explorer "output"')
-                print("\nShould I directly create tickets with corresponding numbers and qr codes (Y/n)?")
+                print("\nShould I directly create tickets with corresponding numbers and QR codes (Y/n)?")
                 answer = input()
                 if answer.lower()[:1] != 'n':
                     makeTickets(result)
