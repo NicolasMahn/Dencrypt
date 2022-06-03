@@ -35,6 +35,7 @@ def makeTickets(result):
     makeFront(result)
     makeBack(result)
 
+
 def makeBack(result):
     """
     TODO
