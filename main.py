@@ -1,4 +1,5 @@
 """
+:author NicolasMahn
 This system decrypts and encrypts tickets or other int arrays.
 For example 1 can be encrypted to a byte code like this:
 gAAAAABigrWsV-vesiIvrgI0CiY-X0uDE-Ot-SkpXla8DQ9D0q2SqEhEotXi-BDe-fW1R2ZwP3cvVVWpocchg2m-Ku3PcuGlrYQC2TjX8rTvIGSNOCDufuI=
@@ -20,17 +21,23 @@ from reportlab.pdfbase import pdfmetrics
 from PyPDF2 import PdfFileWriter, PdfFileReader
 from io import BytesIO
 import qrcode
+from os.path import exists
 
 # This int is not uploaded to GitHub, for obvious reasons.
 # If you need it please contact me.
 RANDOM_INT = privat.numb
+decryptedNumbs = set()
 
+W  = '\033[0m'  # white (normal)
+R  = '\033[31m' # red
+G  = '\033[32m' # green
+O  = '\033[33m' # orange
+B  = '\033[34m' # blue
+P  = '\033[35m' # purple
 
 def makeTickets(result):
     """
     This methode creates a pdf of tickets
-    :param result: TODO
-    :return:
     """
     makeFront(result)
     makeBack(result)
@@ -38,9 +45,7 @@ def makeTickets(result):
 
 def makeBack(result):
     """
-    TODO
-    :param result:
-    :return:
+    This method makes the back of the pdf tickets
     """
     buffer = BytesIO()
     pdfWriter = canvas.Canvas(buffer)
@@ -147,9 +152,7 @@ def makeBack(result):
 
 def makeFront(result):
     """
-    TODO
-    :param result:
-    :return:
+    This method makes the front of the pdf tickets
     """
     buffer = BytesIO()
     pdfWriter = canvas.Canvas(buffer)
@@ -241,6 +244,8 @@ def encrypt():
             if answer.lower()[:1] == 'y':
                 try:
                     key = input("Key: ")
+                    if key.lower()[:1] == 'p':
+                        key = privat.key
                 except Exception:
                     print("Dude, Like an accepted key, not this bs")
             else:
@@ -275,32 +280,68 @@ def encrypt():
     menu()
 
 
+def saveNumb(numb):
+    """
+    This method saves the decrypted numbs to a result json so when they are scanned again, the system knows it
+    """
+    global decryptedNumbs
+
+    decryptedNumbs.add(numb)
+
+    if exists(f"results.json"):
+        file = open(f"results.json")
+        results = json.load(file)
+        file.close()
+    else:
+        results = list()
+
+    results.append(numb)
+
+    if len(results) > 0:
+        with open(f"results.json", "w") as outfile:
+            outfile.write(json.dumps(results))
+
+
 def decrypt():
     """
     This methode decrypts encNumbers with the help of a key
     """
+    global decryptedNumbs
+
+    if exists(f"results.json"):
+        file = open(f"results.json")
+        results = json.load(file)
+        file.close()
+        for r in results:
+            decryptedNumbs.add(r)
+
     sameKey = True
     print("Please enter the Key")
     key = input()
+    if key.lower()[:1] == 'p':
+        key = privat.key
     try:
         fernet = Fernet(key)
     except Exception:
         print("Dude, this key isn't valid")
-        menu()
+        sameKey = False
     while sameKey:
-        print("Please enter the encrypted Number")
+        print("Please enter the encrypted Number or type stop to stop")
         encNumb = input()
+        if encNumb.lower()[:4] == 'stop':
+            break
+        if len(encNumb) == 123:
+            encNumb = encNumb[2:122]
         try:
             numb = int(int(fernet.decrypt(bytes(encNumb, encoding="UTF-8"))) / RANDOM_INT)
-            print(f"The decrypted Number is {numb}")
-            print("Would you like to continue with the same Key (Y/n)?")
+            # print("Would you like to continue with the same Key (Y/n)?")
+            if numb in decryptedNumbs:
+                print(f"{O}{numb} is a Duplicate, this Ticket was already scanned{W}")
+            else:
+                print(f"{G}The decrypted Number is {numb}{W}")
+                saveNumb(numb)
         except Exception:
-            print("Dude, You did something wrong, maybe the encrypted Number isn't valid?")
-            print("Don't blame this on me!")
-            print("Do you want to try again (Y/n)?")
-        answer = input()
-        if answer.lower()[:1] == 'n':
-            sameKey = False
+            print(f"{R}The encrypted Number isn't valid!{W}")
     menu()
 
 
